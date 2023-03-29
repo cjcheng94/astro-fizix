@@ -33,7 +33,7 @@ export default function Asteroid() {
   );
 
   return (
-    <div class="container border-4 border-white my-8 p-4">
+    <div class="my-8 py-4">
       <h1 class="text-3xl text-lime-300 text-center font-mono">
         Asteroid Watch
       </h1>

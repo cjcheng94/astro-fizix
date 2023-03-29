@@ -45,7 +45,7 @@ export default function AsteroidCard(props: NearEarthObject) {
     .slice(4, 21);
 
   return (
-    <div class="text-white font-mono border my-4 p-4">
+    <div class="text-white font-mono border-2 border-white my-4 p-4">
       <div>
         <span>Name: </span>
         <span>{name}</span>

@@ -6,7 +6,7 @@ export type NearEarthObject = components["schemas"]["NearEarthObject"];
 export type NeoFeedTodayData =
   operations["retrieveNEOFeedToday"]["responses"][200]["content"]["application/json"];
 
-const NEOWSURL = "http://www.neowsapp.com/rest/v1/feed";
+const NEOWSURL = "https://www.neowsapp.com/rest/v1/feed";
 const API_KEY = import.meta.env.PUBLIC_NASA_API_KEY;
 
 export default function useNeoWsData() {

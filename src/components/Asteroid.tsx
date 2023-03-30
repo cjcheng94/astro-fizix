@@ -84,11 +84,34 @@ const sortNeos = (sortBy: SortBy, neoList: NearEarthObject[]) => {
   return neoList;
 };
 
+const getNumberOfDangerousNeos = (neoList: NearEarthObject[]) => {
+  let count = 0;
+
+  neoList.forEach(neo => {
+    if (neo.is_potentially_hazardous_asteroid) {
+      count += 1;
+    }
+  });
+
+  return count;
+};
+
 export default function Asteroid() {
   const [sortBy, setSortBy] = useState<SortBy>("");
+
   const data = useNeoWsData();
+
   const neoList = useMemo(() => getNeosList(data), [data]);
-  const sortedNeos = sortNeos(sortBy, neoList);
+
+  const sortedNeos = useMemo(
+    () => sortNeos(sortBy, neoList),
+    [sortBy, neoList]
+  );
+
+  const numberOfDangerousNeos = useMemo(
+    () => getNumberOfDangerousNeos(neoList),
+    [neoList]
+  );
 
   const sort = (type: SortBy) => () => {
     if (sortBy === type) {
@@ -98,15 +121,22 @@ export default function Asteroid() {
     setSortBy(type);
   };
 
+  const helpingVerb = numberOfDangerousNeos === 1 ? "is" : "are";
+
   return (
     <div class="my-4 ">
       {data ? (
         <>
           <div class="text-2xl text-center font-mono text-white mt-4">
-            <span>There are</span>
-            <span class="text-red-500"> {data.element_count} </span>
-            <span>NEOs making their close approach today</span>
-
+            <div>
+              <span>There are</span>
+              <span class="text-lime-300"> {data.element_count} </span>
+              <span>NEOs making their close approach today</span>
+            </div>
+            <div>
+              <span class="text-red-500">{numberOfDangerousNeos}</span>
+              <span> of them {helpingVerb} potentially dangerous</span>
+            </div>
             <div class="mt-4">
               <span class="text-white font-mono">Sort by: </span>
               <Button highlighted={sortBy === "date"} onClick={sort("date")}>

@@ -131,14 +131,14 @@ export default function Asteroid() {
             <div>
               <span>There are</span>
               <span class="text-lime-300"> {data.element_count} </span>
-              <span>NEOs making their close approach today</span>
+              <span>NEOs making their close approach today,</span>
             </div>
-            <div>
+            <div class="mt-2">
               <span class="text-red-500">{numberOfDangerousNeos}</span>
               <span> of them {helpingVerb} potentially dangerous</span>
             </div>
             <div class="mt-4">
-              <span class="text-white font-mono">Sort by: </span>
+              <span class="text-white font-mono block lg:inline">Sort by:</span>
               <Button highlighted={sortBy === "date"} onClick={sort("date")}>
                 Approach Date
               </Button>

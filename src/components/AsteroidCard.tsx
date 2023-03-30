@@ -1,6 +1,9 @@
 import { h } from "preact";
 import type { NearEarthObject } from "../utils/useNeoWsData";
 
+const formatNumber = (number: number, maximumFractionDigits: number = 2) =>
+  number.toLocaleString("en-US", { maximumFractionDigits });
+
 // Get estimated size number in meters if it's smaller than 1 km,
 // otherwise get it in kilometers
 const getAptSizeUnit = (
@@ -18,9 +21,9 @@ const getAptSizeUnit = (
   const maxKm = kilometers?.estimated_diameter_max as number;
 
   if (minKm > 1) {
-    return [minKm.toFixed(2), maxKm.toFixed(2), "kilometers"];
+    return [formatNumber(minKm, 0), formatNumber(maxKm, 0), "kilometers"];
   }
-  return [minMeter.toFixed(2), maxMeter.toFixed(2), "meters"];
+  return [formatNumber(minMeter, 0), formatNumber(maxMeter, 0), "meters"];
 };
 
 export default function AsteroidCard(props: NearEarthObject) {
@@ -38,7 +41,11 @@ export default function AsteroidCard(props: NearEarthObject) {
 
   const [minDiameter, maxDiameter, unit] = getAptSizeUnit(estimated_diameter);
 
-  const roundedMissDistance = parseFloat(miss_distance?.kilometers!).toFixed(3);
+  const roundedMissDistance = formatNumber(
+    parseFloat(miss_distance?.kilometers!)
+  );
+
+  const roundedSpeed = formatNumber(parseFloat(kilometers_per_second!));
 
   const localeDate = new Date(epoch_date_close_approach!)
     .toString()
@@ -70,7 +77,7 @@ export default function AsteroidCard(props: NearEarthObject) {
       </div>
       <div>
         <span>Relative speed: </span>
-        <span>{kilometers_per_second} km/s</span>
+        <span>{roundedSpeed} km/s</span>
       </div>
     </div>
   );

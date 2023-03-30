@@ -26,13 +26,19 @@ const getAptSizeUnit = (
   return [formatNumber(minMeter, 0), formatNumber(maxMeter, 0), "meters"];
 };
 
-export default function AsteroidCard(props: NearEarthObject) {
+export default function AsteroidCard({
+  nearEarthObject,
+  sortBy
+}: {
+  nearEarthObject: NearEarthObject;
+  sortBy: "date" | "size" | "speed" | "distance" | "";
+}) {
   const {
     name,
     close_approach_data,
     is_potentially_hazardous_asteroid,
     estimated_diameter
-  } = props;
+  } = nearEarthObject;
 
   const { epoch_date_close_approach, miss_distance, relative_velocity } =
     close_approach_data![0];
@@ -51,6 +57,12 @@ export default function AsteroidCard(props: NearEarthObject) {
     .toString()
     .slice(4, 21);
 
+  const highlightedClass = (type: "date" | "size" | "speed" | "distance") =>
+    type === sortBy ? "text-lime-300" : "text-white";
+  const dangerousClass = is_potentially_hazardous_asteroid
+    ? "text-red-500"
+    : "text-white";
+
   return (
     <div class="text-white font-mono border-2 border-white my-4 p-4">
       <div>
@@ -59,25 +71,29 @@ export default function AsteroidCard(props: NearEarthObject) {
       </div>
       <div>
         <span>Size: </span>
-        <span>
+        <span class={highlightedClass("size")}>
           {minDiameter} to {maxDiameter} {unit}
         </span>
       </div>
       <div>
         <span>Potentially hazardous: </span>
-        <span>{is_potentially_hazardous_asteroid!.toString()}</span>
+        <span class={dangerousClass}>
+          {is_potentially_hazardous_asteroid!.toString()}
+        </span>
       </div>
       <div>
         <span>Close approach date: </span>
-        <span>{localeDate}</span>
+        <span class={highlightedClass("date")}>{localeDate}</span>
       </div>
       <div>
         <span>Miss distance: </span>
-        <span>{roundedMissDistance} km</span>
+        <span class={highlightedClass("distance")}>
+          {roundedMissDistance} km
+        </span>
       </div>
       <div>
         <span>Relative speed: </span>
-        <span>{roundedSpeed} km/s</span>
+        <span class={highlightedClass("speed")}>{roundedSpeed} km/s</span>
       </div>
     </div>
   );

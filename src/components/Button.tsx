@@ -3,15 +3,17 @@ import type { ComponentChildren } from "preact";
 
 type Props = {
   children: ComponentChildren;
-  onClick: () => void;
+  onClick?: () => void;
+  highlighted?: boolean;
 };
 
-export default function Button({ children, onClick }: Props) {
+export default function Button({ children, onClick, highlighted }: Props) {
+  const buttonClass = `font-mono border-2 px-2 py-1 m-2 ${
+    highlighted ? "text-lime-300 border-lime-300" : "text-white border-white"
+  } `;
+
   return (
-    <button
-      class="text-white font-mono border-2 px-2 py-1 mx-2"
-      onClick={onClick}
-    >
+    <button class={buttonClass} onClick={onClick}>
       {children}
     </button>
   );

@@ -37,15 +37,17 @@ const getRelativeSpeed = (nearEarthObject: NearEarthObject) =>
 const getMissDistance = (nearEarthObject: NearEarthObject) =>
   parseFloat(getCloseApproachData(nearEarthObject).miss_distance?.kilometers!);
 
-type SortBy = "date" | "size" | "speed" | "distance";
+type SortBy = "date" | "size" | "speed" | "distance" | "";
 
 const sortNeos = (sortBy: SortBy, neoList: NearEarthObject[]) => {
-  if (neoList.length < 1) {
+  if (neoList.length < 1 || !sortBy) {
     return neoList;
   }
 
+  const neosCopy = [...neoList];
+
   if (sortBy === "date") {
-    const neosByDate = neoList.sort((a, b) => {
+    const neosByDate = neosCopy.sort((a, b) => {
       const dateA = getCloseApproachData(a).epoch_date_close_approach ?? 0;
       const dateB = getCloseApproachData(b).epoch_date_close_approach ?? 0;
       return dateA - dateB;
@@ -55,7 +57,7 @@ const sortNeos = (sortBy: SortBy, neoList: NearEarthObject[]) => {
   }
 
   if (sortBy === "size") {
-    const neosBySize = neoList.sort(
+    const neosBySize = neosCopy.sort(
       (a, b) =>
         a.estimated_diameter?.meters?.estimated_diameter_max! -
         b.estimated_diameter?.meters?.estimated_diameter_max!
@@ -64,7 +66,7 @@ const sortNeos = (sortBy: SortBy, neoList: NearEarthObject[]) => {
   }
 
   if (sortBy === "speed") {
-    const neosBySpeed = neoList.sort(
+    const neosBySpeed = neosCopy.sort(
       (a, b) => getRelativeSpeed(a) - getRelativeSpeed(b)
     );
 
@@ -72,7 +74,7 @@ const sortNeos = (sortBy: SortBy, neoList: NearEarthObject[]) => {
   }
 
   if (sortBy === "distance") {
-    const neosByMissDistance = neoList.sort(
+    const neosByMissDistance = neosCopy.sort(
       (a, b) => getMissDistance(a) - getMissDistance(b)
     );
 
@@ -83,35 +85,63 @@ const sortNeos = (sortBy: SortBy, neoList: NearEarthObject[]) => {
 };
 
 export default function Asteroid() {
-  const [sortBy, setSortBy] = useState<SortBy>("date");
+  const [sortBy, setSortBy] = useState<SortBy>("");
   const data = useNeoWsData();
   const neoList = useMemo(() => getNeosList(data), [data]);
   const sortedNeos = sortNeos(sortBy, neoList);
 
+  const sort = (type: SortBy) => () => {
+    if (sortBy === type) {
+      setSortBy("");
+      return;
+    }
+    setSortBy(type);
+  };
+
   return (
     <div class="my-4 ">
       {data ? (
-        <p class="text-2xl text-center font-mono text-white mt-4">
-          <span>There are</span>
-          <span class="text-red-400"> {data.element_count} </span>
-          <span>NEOs making their close approach today</span>
-          <div>
-            <Button onClick={() => setSortBy("date")}>Approach Date</Button>
-            <Button onClick={() => setSortBy("size")}>Size</Button>
-            <Button onClick={() => setSortBy("speed")}>Speed</Button>
-            <Button onClick={() => setSortBy("distance")}>Miss Distance</Button>
+        <>
+          <div class="text-2xl text-center font-mono text-white mt-4">
+            <span>There are</span>
+            <span class="text-red-500"> {data.element_count} </span>
+            <span>NEOs making their close approach today</span>
+
+            <div class="mt-4">
+              <span class="text-white font-mono">Sort by: </span>
+              <Button highlighted={sortBy === "date"} onClick={sort("date")}>
+                Approach Date
+              </Button>
+              <Button highlighted={sortBy === "size"} onClick={sort("size")}>
+                Size
+              </Button>
+              <Button highlighted={sortBy === "speed"} onClick={sort("speed")}>
+                Speed
+              </Button>
+              <Button
+                highlighted={sortBy === "distance"}
+                onClick={sort("distance")}
+              >
+                Miss Distance
+              </Button>
+            </div>
           </div>
-        </p>
+
+          <div>
+            {sortedNeos.map(neo => (
+              <AsteroidCard
+                nearEarthObject={neo}
+                key={neo.id}
+                sortBy={sortBy}
+              />
+            ))}
+          </div>
+        </>
       ) : (
-        <p class="text-2xl text-center font-mono text-red-400 mt-4">
+        <p class="text-2xl text-center font-mono text-red-500 mt-4">
           Loading...
         </p>
       )}
-      <div>
-        {sortedNeos.map(neo => (
-          <AsteroidCard {...neo} key={neo.id} />
-        ))}
-      </div>
     </div>
   );
 }

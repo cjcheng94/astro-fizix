@@ -21,7 +21,7 @@ const getAptSizeUnit = (
   const maxKm = kilometers?.estimated_diameter_max as number;
 
   if (minKm > 1) {
-    return [formatNumber(minKm, 0), formatNumber(maxKm, 0), "kilometers"];
+    return [formatNumber(minKm, 2), formatNumber(maxKm, 2), "kilometers"];
   }
   return [formatNumber(minMeter, 0), formatNumber(maxMeter, 0), "meters"];
 };
@@ -35,6 +35,7 @@ export default function AsteroidCard({
 }) {
   const {
     name,
+    nasa_jpl_url,
     close_approach_data,
     is_potentially_hazardous_asteroid,
     estimated_diameter
@@ -67,7 +68,11 @@ export default function AsteroidCard({
     <div class="text-white font-mono border-2 border-white my-4 p-4">
       <div>
         <span>Name: </span>
-        <span>{name}</span>
+        <span class="underline hover:text-blue-500">
+          <a href={nasa_jpl_url} target="_blank" rel="noreferrer noopener">
+            {name}
+          </a>
+        </span>
       </div>
       <div>
         <span>Size: </span>

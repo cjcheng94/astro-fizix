@@ -1,0 +1,40 @@
+---
+export interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+const marqueeWidth = text.length + 4;
+---
+
+<div
+  class="w-full p-2 font-mono text-red-500 text-3xl bg-black fixed bottom-0 left-0 uppercase whitespace-nowrap overflow-hidden"
+>
+  <span class="marquee" style={`--marqueeWidth: ${marqueeWidth}ch`}>{text}</span
+  >
+</div>
+
+<style>
+  div:hover .marquee {
+    animation-play-state: paused;
+  }
+  .marquee {
+    display: inline-block;
+    width: var(--marqueeWidth);
+    text-shadow: var(--marqueeWidth) 0 currentColor,
+      calc(var(--marqueeWidth) * 2) 0 currentColor,
+      calc(var(--marqueeWidth) * 3) 0 currentColor,
+      calc(var(--marqueeWidth) * 4) 0 currentColor;
+
+    will-change: transform;
+    animation: marquee 8s infinite linear;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+</style>

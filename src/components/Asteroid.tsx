@@ -124,21 +124,22 @@ export default function Asteroid() {
   const helpingVerb = numberOfDangerousNeos === 1 ? "is" : "are";
 
   return (
-    <div class="my-4 ">
+    <div class="my-8">
       {data ? (
         <>
-          <div class="text-2xl text-center font-mono text-white mt-4">
+          <div class="text-xl lg:text-2xl font-mono text-white">
             <div>
-              <span>There are</span>
-              <span class="text-lime-300"> {data.element_count} </span>
-              <span>NEOs making their close approach today,</span>
+              <span>There are </span>
+              <span class="text-lime-300">{data.element_count} </span>
+              <span>NEOs making their close approach today, </span>
+              <span class="text-red-500">{numberOfDangerousNeos} </span>
+              <span>of them {helpingVerb} potentially dangerous</span>
             </div>
-            <div class="mt-2">
-              <span class="text-red-500">{numberOfDangerousNeos}</span>
-              <span> of them {helpingVerb} potentially dangerous</span>
-            </div>
-            <div class="mt-4">
-              <span class="text-white font-mono block lg:inline">Sort by:</span>
+
+            <div class="mt-8">
+              <span class="text-white font-mono block lg:inline">
+                Sort by:{" "}
+              </span>
               <Button highlighted={sortBy === "date"} onClick={sort("date")}>
                 Approach Date
               </Button>
@@ -157,7 +158,7 @@ export default function Asteroid() {
             </div>
           </div>
 
-          <div>
+          <div class="mt-8">
             {sortedNeos.map(neo => (
               <AsteroidCard
                 nearEarthObject={neo}

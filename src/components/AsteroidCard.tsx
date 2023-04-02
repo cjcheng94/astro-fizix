@@ -1,5 +1,6 @@
 import { h } from "preact";
 import type { NearEarthObject } from "../utils/useNeoWsData";
+import useCountdown from "../utils/useCountdown";
 
 const formatNumber = (number: number, maximumFractionDigits: number = 2) =>
   number.toLocaleString("en-US", { maximumFractionDigits });
@@ -64,6 +65,10 @@ export default function AsteroidCard({
     ? "text-red-500"
     : "text-white";
 
+  const { hasPassed, seconds, minutes, hours } = useCountdown(
+    epoch_date_close_approach!
+  );
+
   return (
     <div class="flex justify-between flex-wrap gap-4 my-4 p-4 text-white font-mono border-2 border-white ">
       <div class="flex-auto lg:mr-4 sm:min-w-[380px]">
@@ -110,7 +115,7 @@ export default function AsteroidCard({
       </div>
       <div class="flex-auto flex flex-col justify-center items-center text-4xl text-lime-300 whitespace-nowrap">
         <span class="px-4 py-2 text-center w-max border-4 border-lime-300 ">
-          T- 01:30:10
+          T {hasPassed ? "+" : "-"} {hours}:{minutes}:{seconds}
         </span>
       </div>
     </div>

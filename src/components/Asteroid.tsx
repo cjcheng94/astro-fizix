@@ -133,7 +133,7 @@ export default function Asteroid() {
               <span class="text-lime-300">{data.element_count} </span>
               <span>NEOs making their close approach today, </span>
               <span class="text-red-500">{numberOfDangerousNeos} </span>
-              <span>of them {helpingVerb} potentially dangerous</span>
+              <span>of them {helpingVerb} potentially hazardous</span>
             </div>
 
             <div class="mt-8">

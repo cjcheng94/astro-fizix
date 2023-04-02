@@ -65,40 +65,53 @@ export default function AsteroidCard({
     : "text-white";
 
   return (
-    <div class="text-white font-mono border-2 border-white my-4 p-4">
-      <div>
-        <span>Name: </span>
-        <span class="underline hover:text-blue-500">
-          <a href={nasa_jpl_url} target="_blank" rel="noreferrer noopener">
-            {name}
-          </a>
+    <div class="flex justify-between flex-wrap gap-4 my-4 p-4 text-white font-mono border-2 border-white ">
+      <div class="flex-auto lg:mr-4 sm:min-w-[380px]">
+        <div class="sm:max-lg:flex justify-between">
+          <span class="inline-block sm:min-w-[24ch] mr-2">Name:</span>
+          <span class="underline hover:text-blue-500">
+            <a href={nasa_jpl_url} target="_blank" rel="noreferrer noopener">
+              {name}
+            </a>
+          </span>
+        </div>
+        <div class="sm:max-lg:flex justify-between">
+          <span class="inline-block sm:min-w-[24ch] mr-2">Size:</span>
+          <span class={highlightedClass("size")}>
+            {minDiameter} to {maxDiameter} {unit}
+          </span>
+        </div>
+        <div class="sm:max-lg:flex justify-between">
+          <span class="inline-block sm:min-w-[24ch] mr-2">
+            Potentially hazardous:{" "}
+          </span>
+          <span class={dangerousClass}>
+            {is_potentially_hazardous_asteroid!.toString()}
+          </span>
+        </div>
+        <div class="sm:max-lg:flex justify-between">
+          <span class="inline-block sm:min-w-[24ch] mr-2">
+            Close approach date:{" "}
+          </span>
+          <span class={highlightedClass("date") + " whitespace-nowrap"}>
+            {localeDate}
+          </span>
+        </div>
+        <div class="sm:max-lg:flex justify-between">
+          <span class="inline-block sm:min-w-[24ch] mr-2">Miss distance:</span>
+          <span class={highlightedClass("distance")}>
+            {roundedMissDistance} km
+          </span>
+        </div>
+        <div class="sm:max-lg:flex justify-between">
+          <span class="inline-block sm:min-w-[24ch] mr-2">Relative speed:</span>
+          <span class={highlightedClass("speed")}>{roundedSpeed} km/s</span>
+        </div>
+      </div>
+      <div class="flex-auto flex flex-col justify-center items-center text-4xl text-lime-300 whitespace-nowrap">
+        <span class="px-4 py-2 text-center w-max border-4 border-lime-300 ">
+          T- 01:30:10
         </span>
-      </div>
-      <div>
-        <span>Size: </span>
-        <span class={highlightedClass("size")}>
-          {minDiameter} to {maxDiameter} {unit}
-        </span>
-      </div>
-      <div>
-        <span>Potentially hazardous: </span>
-        <span class={dangerousClass}>
-          {is_potentially_hazardous_asteroid!.toString()}
-        </span>
-      </div>
-      <div>
-        <span>Close approach date: </span>
-        <span class={highlightedClass("date")}>{localeDate}</span>
-      </div>
-      <div>
-        <span>Miss distance: </span>
-        <span class={highlightedClass("distance")}>
-          {roundedMissDistance} km
-        </span>
-      </div>
-      <div>
-        <span>Relative speed: </span>
-        <span class={highlightedClass("speed")}>{roundedSpeed} km/s</span>
       </div>
     </div>
   );

@@ -70,7 +70,7 @@ export default function AsteroidCard({
   );
 
   return (
-    <div class="flex justify-between flex-wrap gap-4 my-4 p-4 text-white font-mono border-2 border-white ">
+    <div class="flex justify-between flex-wrap gap-4 my-4 p-4 text-white border-2 border-white ">
       <div class="flex-auto lg:mr-4 sm:min-w-[380px]">
         <div class="sm:max-lg:flex justify-between">
           <span class="inline-block sm:min-w-[24ch] mr-2">Name:</span>

@@ -33,7 +33,7 @@ export default function useNeoWsData() {
       setData(data);
 
       // save a data sample in localStorage for dev environment
-      if (isDev || !dataFromLs) {
+      if (isDev && !dataFromLs) {
         localStorage.setItem("devData", JSON.stringify(data));
       }
     }

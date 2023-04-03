@@ -127,19 +127,33 @@ export default function Asteroid() {
     <div class="my-8">
       {data ? (
         <>
-          <div class="text-xl lg:text-2xl font-mono text-white">
+          <div class="text-xl lg:text-2xl text-white">
             <div>
               <span>There are </span>
               <span class="text-lime-300">{data.element_count} </span>
-              <span>NEOs making their close approach today, </span>
+              <span>
+                <a
+                  href="/learnmore/#near_earth_objects"
+                  class="underline hover:text-blue-500"
+                >
+                  near-Earth objects
+                </a>{" "}
+                making their close approach today,{" "}
+              </span>
               <span class="text-red-500">{numberOfDangerousNeos} </span>
-              <span>of them {helpingVerb} potentially hazardous</span>
+              <span>
+                of them {helpingVerb}{" "}
+                <a
+                  href="/learnmore/#potentially_hazardous_objects"
+                  class="underline hover:text-blue-500"
+                >
+                  potentially hazardous
+                </a>
+              </span>
             </div>
 
             <div class="mt-8">
-              <span class="text-white font-mono block lg:inline">
-                Sort by:{" "}
-              </span>
+              <span class="text-white block lg:inline">Sort by: </span>
               <Button highlighted={sortBy === "date"} onClick={sort("date")}>
                 Approach Date
               </Button>
@@ -169,9 +183,7 @@ export default function Asteroid() {
           </div>
         </>
       ) : (
-        <p class="text-2xl text-center font-mono text-red-500 mt-4">
-          Loading...
-        </p>
+        <p class="text-2xl text-center text-red-500 mt-4">Loading...</p>
       )}
     </div>
   );

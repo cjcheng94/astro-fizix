@@ -2,6 +2,7 @@
 import "@fontsource/jetbrains-mono";
 import "@fontsource/jetbrains-mono/800.css";
 import Marquee from "../components/Marquee.astro";
+import Navigation from "../components/Navigation.astro";
 
 export interface Props {
   title: string;
@@ -20,7 +21,8 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body class="bg-black">
-    <main class="container mx-auto py-4 md:py-8 mb-[52px]">
+    <main class="container mx-auto py-4 md:py-8 mb-[52px] font-mono">
+      <Navigation />
       <slot />
       <Marquee text="Warning: asteroids headed towards earth!" />
     </main>

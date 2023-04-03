@@ -8,18 +8,22 @@ const marqueeWidth = text.length + 4;
 
 <div
   class="w-full p-2 font-mono text-red-500 text-3xl bg-black fixed bottom-0 left-0 uppercase whitespace-nowrap overflow-hidden"
+  id="marquee-container"
 >
-  <span class="marquee" style={`--marqueeWidth: ${marqueeWidth}ch`}>{text}</span
+  <span
+    class="marquee play-animation"
+    style={`--marqueeWidth: ${marqueeWidth}ch`}>{text}</span
   >
 </div>
 
 <style>
-  div:hover .marquee {
-    animation-play-state: paused;
+  #marquee-container {
+    cursor: pointer;
   }
   .marquee {
     display: inline-block;
     width: var(--marqueeWidth);
+    user-select: none;
     text-shadow: var(--marqueeWidth) 0 currentColor,
       calc(var(--marqueeWidth) * 2) 0 currentColor,
       calc(var(--marqueeWidth) * 3) 0 currentColor,
@@ -27,8 +31,11 @@ const marqueeWidth = text.length + 4;
 
     will-change: transform;
     animation: marquee 8s infinite linear;
+    animation-play-state: paused;
   }
-
+  .play-animation {
+    animation-play-state: running;
+  }
   @keyframes marquee {
     0% {
       transform: translateX(0);
@@ -38,3 +45,12 @@ const marqueeWidth = text.length + 4;
     }
   }
 </style>
+
+<script>
+  const marqueeContainer = document.querySelector("#marquee-container");
+  const marquee = document.querySelector(".marquee");
+
+  marqueeContainer?.addEventListener("click", () => {
+    marquee?.classList.toggle("play-animation");
+  });
+</script>
